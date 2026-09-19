@@ -250,7 +250,7 @@ function startLocation() {
         lon: pos.coords.longitude,
         acc: pos.coords.accuracy
       };
-      setPill("ok", `Location verified (±${Math.round(fix.acc)}m)`);
+      setPill("ok", "Location ready");
       updateSubmitState();
     },
     err => {
