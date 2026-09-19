@@ -269,7 +269,7 @@ async function checkSession() {
 
     if (data.status === "open") {
       sessionOpen = true;
-      $("sessionSub").textContent = data.end ? `Open until ${new Date(data.end).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}` : "Session is active.";
+      $("sessionSub").textContent = "Session is active.";
     } else {
       sessionOpen = false;
       $("sessionSub").textContent = data.message || "Attendance session is closed.";
