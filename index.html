@@ -11,7 +11,7 @@
     --muted: #3b6b4e;          /* Medium moss green for subtitles/labels */
     --line: #c2dec9;           /* Soft sage border line */
     --bg: #eef7f0;             /* Pale mint background */
-    --card: #ffffff;           /* Card background */
+    --card: #FFF5EB;           /* Card background */
     --accent: #198754;         /* Primary emerald green */
     --accent-hover: #146c43;   /* Darker emerald for button hover/active */
     --ok: #137a45;             /* Success green */
@@ -100,7 +100,7 @@
 
     <form id="form" novalidate>
       <label for="studentId">Student ID</label>
-      <input type="text" id="studentId" inputmode="numeric" required autocomplete="off">
+      <input type="text" id="studentId" required autocomplete="off">
 
       <label for="name">Full Name (Arabic)</label>
       <input type="text" id="name" dir="rtl" minlength="3" required>
@@ -112,6 +112,11 @@
         <optgroup label="B"><option>B1</option><option>B2</option><option>B3</option><option>B4</option><option>B5</option><option>B6</option></optgroup>
         <optgroup label="C"><option>C1</option><option>C2</option><option>C3</option><option>C4</option><option>C5</option><option>C6</option></optgroup>
       </select>
+
+      <label style="display: flex; align-items: center; gap: 8px; margin: 16px 0 6px; cursor: pointer; font-size: 15px;">
+        <input type="checkbox" id="transferCheckbox" style="width: 18px; height: 18px; margin: 0; cursor: pointer;">
+        <span>طالب محول (Transfer Student)</span>
+      </label>
 
       <div class="pill wait" id="locPill">
         <span class="dot"></span><span id="locText">Detecting GPS location…</span>
@@ -126,7 +131,7 @@
 </div>
 
 <script>
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyjgghPgl_Vwi7E-8yKM3Vc1zYHCfAx9YE2NwJmVK9mAL_0WvA5X10tjfAonaND2EO1/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzzWQkmCDOUWg4ToN4sdayvuqApFp_LCJPTq9kaqmBXCDi1xVaBKGCtdodDmwOccw4i/exec";
 
 const params  = new URLSearchParams(location.search);
 const sheetId = params.get("sheetId");
@@ -307,7 +312,8 @@ function startStudent() {
     const studentId = $("studentId").value.trim();
     const name = $("name").value.trim();
     const group = $("groupSelect").value;
-
+    const isTransferred = $("transferCheckbox").checked;
+    
     if (!studentId || name.length < 3 || !group) {
       showMsg("Please fill out all fields properly.", "bad");
       return;
@@ -326,6 +332,7 @@ function startStudent() {
           studentId: studentId,
           name: name,
           group: group,
+          isTransferred: isTransferred,
           latitude: fix.lat,
           longitude: fix.lon,
           accuracy: fix.acc,
